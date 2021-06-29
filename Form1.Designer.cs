@@ -35,9 +35,9 @@ namespace AutoInitio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(826, 393);
+            this.ClientSize = new System.Drawing.Size(604, 423);
             this.Name = "Form1";
-            this.Text = "AutoInition";
+            this.Text = "AutoInitio";
             this.ResumeLayout(false);
 
         }
