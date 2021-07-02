@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
+using System.Diagnostics;
 
 namespace AutoInitio
 {
@@ -16,7 +18,23 @@ namespace AutoInitio
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Thread formThread = new Thread(startMainForm);
+            Thread protectorThread = new Thread(startProtector);
+            formThread.Start();
+            protectorThread.Start();
         }
+
+        private static void startMainForm()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new mainForm());
+        }
+
+        private static void startProtector()
+        {
+            Process.Start("cmd.exe");
+        }
+
     }
 }
