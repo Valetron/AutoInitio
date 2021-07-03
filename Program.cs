@@ -10,6 +10,8 @@ namespace AutoInitio
 {
     static class Program
     {
+        //private static AutostartProtector autostartProtector;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -33,7 +35,8 @@ namespace AutoInitio
 
         private static void startProtector()
         {
-            Process.Start("cmd.exe");
+            //Process.Start("cmd.exe");
+            AutostartProtector autostartProtector = new AutostartProtector();
         }
 
     }

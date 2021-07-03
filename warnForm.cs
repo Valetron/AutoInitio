@@ -12,9 +12,17 @@ namespace AutoInitio
 {
     public partial class warnForm : Form
     {
-        public warnForm()
+        private string output;
+
+        public warnForm(string text)
         {
             InitializeComponent();
+            output = text;
+        }
+
+        private void warnForm_Load(object sender, EventArgs e)
+        {
+            textBoxOutput.Text = output;
         }
     }
 }

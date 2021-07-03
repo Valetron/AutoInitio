@@ -29,12 +29,33 @@ namespace AutoInitio
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.textBoxOutput = new System.Windows.Forms.TextBox();
+            this.SuspendLayout();
+            // 
+            // textBoxOutput
+            // 
+            this.textBoxOutput.Location = new System.Drawing.Point(12, 12);
+            this.textBoxOutput.Multiline = true;
+            this.textBoxOutput.Name = "textBoxOutput";
+            this.textBoxOutput.Size = new System.Drawing.Size(776, 426);
+            this.textBoxOutput.TabIndex = 0;
+            // 
+            // warnForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBoxOutput);
+            this.Name = "warnForm";
             this.Text = "warnForm";
+            this.Load += new System.EventHandler(this.warnForm_Load);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.TextBox textBoxOutput;
     }
 }

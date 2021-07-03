@@ -15,7 +15,6 @@ namespace AutoInitio
         public mainForm()
         {
             InitializeComponent();
-            //this.notifyIconTray.MouseClick += new MouseEventHandler(notifyIconTray_MouseClick);
         }
 
         private void notifyIconTray_MouseClick(object sender, MouseEventArgs e)
