@@ -22,8 +22,8 @@ namespace AutoInitio
             process.Start();
             StreamReader reader = process.StandardOutput;
             string output = reader.ReadToEnd();
-            Form form = new warnForm(output);
-            form.Show();
+            /*Form form = new warnForm();
+            form.Show();*/
             //process.WaitForExit();
         }
 

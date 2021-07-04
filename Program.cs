@@ -18,12 +18,12 @@ namespace AutoInitio
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            /*Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);*/
             Thread formThread = new Thread(startMainForm);
-            Thread protectorThread = new Thread(startProtector);
+            //Thread protectorThread = new Thread(startProtector);
             formThread.Start();
-            protectorThread.Start();
+            //protectorThread.Start();
         }
 
         private static void startMainForm()
@@ -36,7 +36,10 @@ namespace AutoInitio
         private static void startProtector()
         {
             //Process.Start("cmd.exe");
-            AutostartProtector autostartProtector = new AutostartProtector();
+            //AutostartProtector autostartProtector = new AutostartProtector();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new warnForm());
         }
 
     }

@@ -48,7 +48,6 @@ namespace AutoInitio
             this.Controls.Add(this.textBoxOutput);
             this.Name = "warnForm";
             this.Text = "warnForm";
-            this.Load += new System.EventHandler(this.warnForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
