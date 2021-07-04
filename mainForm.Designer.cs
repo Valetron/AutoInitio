@@ -36,6 +36,7 @@ namespace AutoInitio
             this.buttonScheduler = new System.Windows.Forms.Button();
             this.buttonRegistry = new System.Windows.Forms.Button();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // notifyIconTray
@@ -87,11 +88,20 @@ namespace AutoInitio
             this.panelMain.Size = new System.Drawing.Size(626, 400);
             this.panelMain.TabIndex = 4;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(12, 399);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(822, 232);
+            this.textBox1.TabIndex = 0;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(846, 553);
+            this.ClientSize = new System.Drawing.Size(846, 643);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.buttonRegistry);
             this.Controls.Add(this.buttonScheduler);
@@ -103,6 +113,7 @@ namespace AutoInitio
             this.Text = "AutoInitio";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -113,6 +124,7 @@ namespace AutoInitio
         private System.Windows.Forms.Button buttonScheduler;
         private System.Windows.Forms.Button buttonRegistry;
         private System.Windows.Forms.Panel panelMain;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
