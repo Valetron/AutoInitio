@@ -31,6 +31,15 @@ namespace AutoInitio
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Node1");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Node2");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Node0", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2});
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Node4");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Node3", new System.Windows.Forms.TreeNode[] {
+            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Node5");
             this.notifyIconTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.buttonFolder = new System.Windows.Forms.Button();
             this.buttonScheduler = new System.Windows.Forms.Button();
@@ -40,6 +49,7 @@ namespace AutoInitio
             this.buttonFolderOpen = new System.Windows.Forms.Button();
             this.buttonSchedulerOpen = new System.Windows.Forms.Button();
             this.buttonRegistryOpen = new System.Windows.Forms.Button();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // notifyIconTray
@@ -93,10 +103,10 @@ namespace AutoInitio
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 399);
+            this.textBox1.Location = new System.Drawing.Point(12, 418);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(822, 232);
+            this.textBox1.Size = new System.Drawing.Size(822, 213);
             this.textBox1.TabIndex = 0;
             // 
             // buttonFolderOpen
@@ -129,11 +139,36 @@ namespace AutoInitio
             this.buttonRegistryOpen.UseVisualStyleBackColor = true;
             this.buttonRegistryOpen.Click += new System.EventHandler(this.buttonRegistryOpen_Click);
             // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(48, 348);
+            this.treeView1.Name = "treeView1";
+            treeNode1.Name = "Node1";
+            treeNode1.Text = "Node1";
+            treeNode2.Name = "Node2";
+            treeNode2.Text = "Node2";
+            treeNode3.Name = "Node0";
+            treeNode3.Text = "Node0";
+            treeNode4.Name = "Node4";
+            treeNode4.Text = "Node4";
+            treeNode5.Name = "Node3";
+            treeNode5.Text = "Node3";
+            treeNode6.Name = "Node5";
+            treeNode6.Text = "Node5";
+            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode3,
+            treeNode5,
+            treeNode6});
+            this.treeView1.Size = new System.Drawing.Size(121, 97);
+            this.treeView1.TabIndex = 8;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(846, 643);
+            this.Controls.Add(this.treeView1);
             this.Controls.Add(this.buttonRegistryOpen);
             this.Controls.Add(this.buttonSchedulerOpen);
             this.Controls.Add(this.buttonFolderOpen);
@@ -164,6 +199,7 @@ namespace AutoInitio
         private System.Windows.Forms.Button buttonFolderOpen;
         private System.Windows.Forms.Button buttonSchedulerOpen;
         private System.Windows.Forms.Button buttonRegistryOpen;
+        private System.Windows.Forms.TreeView treeView1;
     }
 }
 

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AutoInitio")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Simple programm for autostart protection")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AutoInitio")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyCopyright("Copyleft ©  2K21")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

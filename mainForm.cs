@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace AutoInitio
 {
@@ -29,10 +30,10 @@ namespace AutoInitio
 
         private void buttonScheduler_Click(object sender, EventArgs e)
         {
-            buttonSchedulerUpdate();
+            schedulerUpdate();
         }
 
-        private void buttonSchedulerUpdate()
+        private void schedulerUpdate()
         {
             panelMain.Controls.Clear();
 
@@ -116,7 +117,25 @@ namespace AutoInitio
 
         private void buttonRegistry_Click(object sender, EventArgs e)
         {
+            registryUpdate();
+        }
+
+        private void registryUpdate()
+        {
             panelMain.Controls.Clear();
+
+            RegistryKey rkCUR = Registry.CurrentUser.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("Run");
+            string[] keys = rkCUR.GetSubKeyNames();
+            textBox1.Text += rkCUR + "\r\n"; // HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+            textBox1.Text += keys.Length + "\r\n";
+            for (int i = 0; i < keys.Length; i++)
+            {
+                textBox1.Text += keys[i] + "\r\n";
+            }
+
+            RegistryKey rkCURO = Registry.CurrentUser.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("RunOnce");
+            RegistryKey rkLM = Registry.LocalMachine.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("Run");
+            RegistryKey rkLMO = Registry.LocalMachine.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("RunOnce");
         }
 
         private void buttonFolder_Click(object sender, EventArgs e)
@@ -216,7 +235,7 @@ namespace AutoInitio
                 /*File.Delete(nodesFolders[button.index]);
                 nodesFolders.Remove(nodesFolders[button.index]);
                 updateFolders();*/
-                buttonSchedulerUpdate();
+                schedulerUpdate();
             }
         }
 
@@ -240,7 +259,7 @@ namespace AutoInitio
                 process.StartInfo.CreateNoWindow = true;
                 process.Start();
 
-                buttonSchedulerUpdate();
+                schedulerUpdate();
             }
         }
 
@@ -281,5 +300,9 @@ namespace AutoInitio
             Process.Start("regedit.exe");
         }
 
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            textBox1.Text += e.Node.Text;
+        }
     }
 }
