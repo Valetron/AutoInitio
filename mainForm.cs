@@ -15,7 +15,7 @@ namespace AutoInitio
     public partial class mainForm : Form
     {
         private List<string> nodesFolders = new List<string>();
-        private List<string[]> nodesScheduler = new List<string[]>();
+        private string[][] ns;
 
         public mainForm()
         {
@@ -28,6 +28,11 @@ namespace AutoInitio
         }
 
         private void buttonScheduler_Click(object sender, EventArgs e)
+        {
+            buttonSchedulerUpdate();
+        }
+
+        private void buttonSchedulerUpdate()
         {
             panelMain.Controls.Clear();
 
@@ -42,47 +47,57 @@ namespace AutoInitio
             StreamReader reader = process.StandardOutput;
 
             string[] output = reader.ReadToEnd().Split('\n');
+            ns = new string[output.Length][];
 
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            foreach (string str in output)
+            for (int i = 0; i < ns.Length; i++)
             {
-                nodesScheduler.Add(str.Split(','));
-                /*if (str.Replace("\"", "").Split(',')[2] != "Disabled")
-                {
-                    nodesScheduler.Add(str.Replace("\"", "").Split(','));
-                }*/
+                ns[i] = output[i].Replace("\"", "").Split(',');
             }
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-            if (output.Length != 0) // исправить ошибку, но какую?
+            if (output.Length != 0)
             {
-                for (int i = 0; i < nodesScheduler.Count - 1; i++)
+                for (int i = 0; i < ns.Length - 1; i++)
                 {
                     Label labelTaskName = new Label();
                     labelTaskName.Location = new Point(10, 15 + (i * 30));
                     labelTaskName.AutoSize = false;
                     labelTaskName.BorderStyle = BorderStyle.None;
                     labelTaskName.AutoEllipsis = true;
-                    labelTaskName.Text = Path.GetFileName(nodesScheduler[i][0]);
+                    labelTaskName.Text += ns[i][0];
                     panelMain.Controls.Add(labelTaskName);
 
-                    // проблема с выходом за границы
-                    /*Label labelTaskTime = new Label();
-                    labelTaskTime.Location = new Point(90, 15 + (i * 30));
-                    labelTaskTime.AutoSize = false;
+                    Label labelTaskTime = new Label();
+                    labelTaskTime.Location = new Point(120, 15 + (i * 30));
+                    labelTaskTime.AutoSize = true;
                     labelTaskTime.BorderStyle = BorderStyle.None;
                     labelTaskTime.AutoEllipsis = true;
-                    labelTaskTime.Text = Path.GetFileName(nodesScheduler[i][1]);
-                    panelMain.Controls.Add(labelTaskTime);*/
+                    labelTaskTime.Text += ns[i][1];
+                    panelMain.Controls.Add(labelTaskTime);
 
-                    // можно сделать в обе стороны работу
-                    /*Label labelTaskStatus = new Label();
-                    labelTaskStatus.Location = new Point(10, 15 + (i * 30));
-                    labelTaskStatus.AutoSize = false;
+                    Label labelTaskStatus = new Label();
+                    labelTaskStatus.Location = new Point(240, 15 + (i * 30));
+                    labelTaskStatus.AutoSize = true;
                     labelTaskStatus.BorderStyle = BorderStyle.None;
                     labelTaskStatus.AutoEllipsis = true;
-                    labelTaskStatus.Text = Path.GetFileName(nodesScheduler[i][3]);
-                    panelMain.Controls.Add(labelTaskStatus);*/
+                    labelTaskStatus.Text += ns[i][2];
+                    panelMain.Controls.Add(labelTaskStatus);
+
+                    myButton buttonStopStart = new myButton();
+                    buttonStopStart.Location = new Point(300, 10 + (i * 30));
+                    buttonStopStart.index = i;
+                    buttonStopStart.Text = ns[i][2].StartsWith("R") ? "Отключить" : "Включить";
+                    buttonStopStart.Click += buttonSchedulerStopStart_Click;
+                    panelMain.Controls.Add(buttonStopStart);
+
+                    if (ns[i][2].StartsWith("D"))
+                    {
+                        myButton buttonRemove = new myButton();
+                        buttonRemove.Location = new Point(390, 10 + (i * 30));
+                        buttonRemove.index = i;
+                        buttonRemove.Text = "Удалить";
+                        buttonRemove.Click += buttonSchedulerDelete_Click;
+                        panelMain.Controls.Add(buttonRemove);
+                    }
                 }
             }
             else // невозможно, но вдруг 
@@ -95,7 +110,7 @@ namespace AutoInitio
                 label.Text = "Задачи не запланированы";
                 panelMain.Controls.Add(label);
             }
-
+            //Array.Clear(ns, 0, ns.Length);
             process.WaitForExit();
         }
 
@@ -133,7 +148,7 @@ namespace AutoInitio
             }
         }
 
-        private void button_Click(object sender, EventArgs e)
+        private void buttonF_Click(object sender, EventArgs e)
         {
             var button = (myButton)sender;
 
@@ -147,6 +162,85 @@ namespace AutoInitio
                 File.Delete(nodesFolders[button.index]);
                 nodesFolders.Remove(nodesFolders[button.index]);
                 updateFolders();
+            }
+        }
+
+        private void buttonSchedulerStopStart_Click(object sender, EventArgs e)
+        {
+            var button = (myButton)sender;
+
+            if (button != null)
+            {
+                if (ns[button.index][2].StartsWith("D"))
+                {
+                    var result = MessageBox.Show("Вы уверены, что хотите возобновить " + ns[button.index][0] + " ?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.No)
+                    {
+                        return;
+                    }
+                    Process process = new Process();
+                    process.StartInfo.FileName = "schtasks.exe";
+                    process.StartInfo.Arguments = "/run /tn " + ns[button.index][0];
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.CreateNoWindow = true;
+
+                    process.StartInfo.FileName = "schtasks.exe";
+                    process.StartInfo.Arguments = "/change /tn " + ns[button.index][0] + " /enable";
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                    //process.WaitForExit();
+                }
+                else if (ns[button.index][2].StartsWith("R"))
+                {
+                    var result = MessageBox.Show("Вы уверены, что хотите остановить " + ns[button.index][0] + " ?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    
+                    if (result == DialogResult.No)
+                    {
+                        return;
+                    }
+
+                    Process process = new Process();
+                    process.StartInfo.FileName = "schtasks.exe";
+                    process.StartInfo.Arguments = "/end /tn " + ns[button.index][0];
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+
+                    process.StartInfo.FileName = "schtasks.exe";
+                    process.StartInfo.Arguments = "/change /tn " + ns[button.index][0] + " /disable";
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                }
+                /*File.Delete(nodesFolders[button.index]);
+                nodesFolders.Remove(nodesFolders[button.index]);
+                updateFolders();*/
+                buttonSchedulerUpdate();
+            }
+        }
+
+        private void buttonSchedulerDelete_Click(object sender, EventArgs e)
+        {
+            var button = (myButton)sender;
+
+            if (button != null)
+            {
+                var result = MessageBox.Show("Вы уверены, что хотите удалить " + ns[button.index][0] + " ?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                
+                if (result == DialogResult.No)
+                {
+                    return;
+                }
+
+                Process process = new Process();
+                process.StartInfo.FileName = "schtasks.exe";
+                process.StartInfo.Arguments = "/delete /tn " + ns[button.index][0] + " /f";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.CreateNoWindow = true;
+                process.Start();
+
+                buttonSchedulerUpdate();
             }
         }
 
@@ -165,7 +259,7 @@ namespace AutoInitio
                 button.Location = new Point(410, 10 + (i * 30));
                 button.index = i;
                 button.Text = "Удалить";
-                button.Click += button_Click;
+                button.Click += buttonF_Click;
 
                 panelMain.Controls.Add(label);
                 panelMain.Controls.Add(button);
