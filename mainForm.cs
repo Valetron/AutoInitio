@@ -25,7 +25,21 @@ namespace AutoInitio
 
         private void notifyIconTray_MouseClick(object sender, MouseEventArgs e)
         {
+            /*if (this.WindowState == FormWindowState.Normal)
+            {
+                this.WindowState = FormWindowState.Minimized;
+                this.Activate();
+            }
+            *//*else if (this.WindowState == FormWindowState.Normal && !this.Ac)
+            {
+                this.Activate();
+            }*//*
+            else if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.WindowState = FormWindowState.Normal;
+            }*/
             this.WindowState = FormWindowState.Normal;
+            this.Activate();
         }
 
         private void buttonScheduler_Click(object sender, EventArgs e)
@@ -126,11 +140,17 @@ namespace AutoInitio
 
             RegistryKey rkCUR = Registry.CurrentUser.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("Run");
             string[] keys = rkCUR.GetSubKeyNames();
+            string[] values = rkCUR.GetValueNames();
             textBox1.Text += rkCUR + "\r\n"; // HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
-            textBox1.Text += keys.Length + "\r\n";
+            textBox1.Text += "Keys len " + keys.Length + "\r\n";
+            textBox1.Text += "Values len " + values.Length + "\r\n";
             for (int i = 0; i < keys.Length; i++)
             {
                 textBox1.Text += keys[i] + "\r\n";
+            }
+            for (int i = 0; i < values.Length; i++)
+            {
+                textBox1.Text += values[i] + "\r\n";
             }
 
             RegistryKey rkCURO = Registry.CurrentUser.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("RunOnce");
