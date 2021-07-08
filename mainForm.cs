@@ -25,21 +25,22 @@ namespace AutoInitio
 
         private void notifyIconTray_MouseClick(object sender, MouseEventArgs e)
         {
-            /*if (this.WindowState == FormWindowState.Normal)
+            if (this.WindowState == FormWindowState.Normal)
             {
                 this.WindowState = FormWindowState.Minimized;
-                this.Activate();
+                //this.Activate();
+                this.BringToFront();
             }
-            *//*else if (this.WindowState == FormWindowState.Normal && !this.Ac)
+            /*else if (this.WindowState == FormWindowState.Normal && this.dis)
             {
-                this.Activate();
-            }*//*
+                this.BringToFront();
+            }*/
             else if (this.WindowState == FormWindowState.Minimized)
             {
                 this.WindowState = FormWindowState.Normal;
-            }*/
-            this.WindowState = FormWindowState.Normal;
-            this.Activate();
+            }
+            /*this.WindowState = FormWindowState.Normal;
+            this.Activate();*/
         }
 
         private void buttonScheduler_Click(object sender, EventArgs e)
@@ -134,11 +135,49 @@ namespace AutoInitio
             registryUpdate();
         }
 
-        private void registryUpdate()
+        private void registryUpdate() // доработать
         {
             panelMain.Controls.Clear();
 
+            /*int step = 10;
+
             RegistryKey rkCUR = Registry.CurrentUser.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("Run");
+            RegistryKey rkCURO = Registry.CurrentUser.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("RunOnce");
+
+            RegistryKey rkLM = Registry.LocalMachine.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("Run");
+            RegistryKey rkLMO = Registry.LocalMachine.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("RunOnce");
+
+            string[] rkCURValues = rkCUR.GetValueNames();
+            string[] rkCUROValues = rkCURO.GetValueNames();
+            string[] rkLMValues = rkLM.GetValueNames();
+            string[] rkLMOValues = rkLMO.GetValueNames();
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (i == 0)
+                {
+                    Label labelrkCUR = new Label();
+                    labelrkCUR.Location = new Point(10, 15 + (i * 30));
+                    labelrkCUR.AutoSize = false;
+                    labelrkCUR.BorderStyle = BorderStyle.None;
+                    labelrkCUR.AutoEllipsis = true;
+                    labelrkCUR.Text += ns[i][0];
+                    panelMain.Controls.Add(labelrkCUR);
+                }
+                else if (i == 1)
+                {
+
+                }
+                else if (i == 2)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            *//*
             string[] keys = rkCUR.GetSubKeyNames();
             string[] values = rkCUR.GetValueNames();
             textBox1.Text += rkCUR + "\r\n"; // HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
@@ -151,11 +190,9 @@ namespace AutoInitio
             for (int i = 0; i < values.Length; i++)
             {
                 textBox1.Text += values[i] + "\r\n";
-            }
+            }*/
 
-            RegistryKey rkCURO = Registry.CurrentUser.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("RunOnce");
-            RegistryKey rkLM = Registry.LocalMachine.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("Run");
-            RegistryKey rkLMO = Registry.LocalMachine.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("RunOnce");
+
         }
 
         private void buttonFolder_Click(object sender, EventArgs e)
@@ -320,9 +357,5 @@ namespace AutoInitio
             Process.Start("regedit.exe");
         }
 
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            textBox1.Text += e.Node.Text;
-        }
     }
 }
